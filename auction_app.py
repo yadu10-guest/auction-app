@@ -1,7 +1,11 @@
 import base64
+import os
 
 import psycopg2
 import streamlit as st
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 # Helper function to convert image to base64
@@ -30,11 +34,11 @@ def set_background(image_path):
 
 
 db_connection = psycopg2.connect(
-    host="localhost",  # or your DB host
-    port=5432,
-    database="auction_app",
-    user="postgres",
-    password="auction"
+    host=os.getenv("DB_HOST"),  # or your DB host
+    port=os.getenv("DB_PORT"),
+    database=os.getenv("DB_NAME"),
+    user=os.getenv("DB_USER"),
+    password=os.getenv("DB_PASSWORD")
 )
 
 if "current_bid" not in st.session_state:
@@ -45,7 +49,7 @@ def login():
     st.markdown("<h1 style='color: black;'>Login</h1>", unsafe_allow_html=True)
     username = st.text_input("Username")
     password = st.text_input("Password", type="password")
-    set_background("/home/yadukrishnan/Downloads/auction.jpg")
+    # set_background("/home/yadukrishnan/Downloads/auction.jpg")
     if st.button("Login"):
         if username == "admin" and password == "admin123":
             st.session_state.role = "admin"
@@ -65,7 +69,7 @@ def admin_view():
     print(image_url)
     print("Result = ", result)
     print(type(result))
-    set_background("/home/yadukrishnan/Downloads/player auction.webp")
+    # set_background("/home/yadukrishnan/Downloads/player auction.webp")
     st.markdown("<h1 style='color: white;'>Admin Dashboard</h1>", unsafe_allow_html=True)
     st.markdown("<h2 style='color: white;'>Welcome Admin</h2>", unsafe_allow_html=True)
     st.markdown(
