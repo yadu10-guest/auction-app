@@ -1,11 +1,7 @@
 import base64
-import os
 
 import psycopg2
 import streamlit as st
-from dotenv import load_dotenv
-
-load_dotenv()
 
 
 # Helper function to convert image to base64
@@ -34,11 +30,11 @@ def set_background(image_path):
 
 
 db_connection = psycopg2.connect(
-    host=os.getenv("DB_HOST"),  # or your DB host
-    port=os.getenv("DB_PORT"),
-    database=os.getenv("DB_NAME"),
-    user=os.getenv("DB_USER"),
-    password=os.getenv("DB_PASSWORD")
+    host=st.secrets["DB_HOST"],
+    port=st.secrets["DB_PORT"],
+    database=st.secrets["DB_NAME"],
+    user=st.secrets["DB_USER"],
+    password=st.secrets["DB_PASSWORD"]
 )
 
 if "current_bid" not in st.session_state:
