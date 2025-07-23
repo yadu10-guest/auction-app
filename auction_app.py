@@ -1,18 +1,27 @@
 import base64
 
 import psycopg2
+import requests
 import streamlit as st
 
 
 # Helper function to convert image to base64
-def get_base64(file_path):
-    with open(file_path, "rb") as f:
-        return base64.b64encode(f.read()).decode()
+# def get_base64(file_path):
+#     with open(file_path, "rb") as f:
+#         return base64.b64encode(f.read()).decode()
+
+def get_base64_from_url(url):
+    response = requests.get(url)
+    if response.status_code == 200:
+        return base64.b64encode(response.content).decode()
+    else:
+        st.error("Image couldn't be loaded.")
+        return ""
 
 
 # Background functions
 def set_background(image_path):
-    img_base64 = get_base64(image_path)
+    img_base64 = get_base64_from_url(image_path)
     st.markdown(
         f"""
         <style>
@@ -71,7 +80,7 @@ def admin_view():
     st.markdown(
         f"""
         <div style="text-align: center;">
-            <img src='data:image/png;base64,{get_base64(image_url)}' style='width: 300px; height: 300px;'>
+            <img src='data:image/png;base64,{get_base64_from_url(image_url)}' style='width: 300px; height: 300px;'>
         </div>
         """,
         unsafe_allow_html=True
