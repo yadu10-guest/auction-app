@@ -1,32 +1,14 @@
-import base64
-
 import psycopg2
-import requests
 import streamlit as st
 
 
-# Helper function to convert image to base64
-# def get_base64(file_path):
-#     with open(file_path, "rb") as f:
-#         return base64.b64encode(f.read()).decode()
-
-def get_base64_from_url(url):
-    response = requests.get(url)
-    if response.status_code == 200:
-        return base64.b64encode(response.content).decode()
-    else:
-        st.error("Image couldn't be loaded.")
-        return ""
-
-
 # Background functions
-def set_background(image_path):
-    img_base64 = get_base64_from_url(image_path)
+def set_background(background_image_url):
     st.markdown(
         f"""
         <style>
         .stApp {{
-            background-image: url("data:image/png;base64,{img_base64}");
+            background-image: url("{background_image_url}");
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -54,7 +36,7 @@ def login():
     st.markdown("<h1 style='color: black;'>Login</h1>", unsafe_allow_html=True)
     username = st.text_input("Username")
     password = st.text_input("Password", type="password")
-    # set_background("/home/yadukrishnan/Downloads/auction.jpg")
+    set_background("https://raw.githubusercontent.com/yadu10-guest/auction-app/refs/heads/master/images/auction.jpg")
     if st.button("Login"):
         if username == "admin" and password == "admin123":
             st.session_state.role = "admin"
@@ -74,13 +56,14 @@ def admin_view():
     print(image_url)
     print("Result = ", result)
     print(type(result))
-    # set_background("/home/yadukrishnan/Downloads/player auction.webp")
+    set_background(
+        "https://raw.githubusercontent.com/yadu10-guest/auction-app/refs/heads/master/images/player%20auction.webp")
     st.markdown("<h1 style='color: white;'>Admin Dashboard</h1>", unsafe_allow_html=True)
     st.markdown("<h2 style='color: white;'>Welcome Admin</h2>", unsafe_allow_html=True)
     st.markdown(
         f"""
         <div style="text-align: center;">
-            <img src='data:image/png;base64,{get_base64_from_url(image_url)}' style='width: 300px; height: 300px;'>
+            <img src="{image_url}" alt="Image" width="300" height="300">
         </div>
         """,
         unsafe_allow_html=True
