@@ -29,13 +29,13 @@ def set_background(image_path):
     )
 
 
-# db_connection = psycopg2.connect(
-#     host="localhost",  # or your DB host
-#     port=5432,
-#     database="auction_app",
-#     user="postgres",
-#     password="auction"
-# )
+db_connection = psycopg2.connect(
+    host="localhost",  # or your DB host
+    port=5432,
+    database="auction_app",
+    user="postgres",
+    password="auction"
+)
 
 if "current_bid" not in st.session_state:
     st.session_state.current_bid = 1000  # starting bid
@@ -51,9 +51,9 @@ def login():
             st.session_state.role = "admin"
             # Fetch players only once
             if "players_data" not in st.session_state:
-                # cur = db_connection.cursor()
-                # cur.execute("SELECT * FROM players_list")
-                st.session_state.players_data = [(1, 'Nikil', '/home/yadukrishnan/Desktop/PLayercards/KMPL_S5/1.jpg')]
+                cur = db_connection.cursor()
+                cur.execute("SELECT * FROM players_list")
+                st.session_state.players_data = cur.fetchall()
         elif username == "user" and password == "user123":
             st.session_state.role = "user"
         st.rerun()
