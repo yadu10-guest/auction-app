@@ -58,12 +58,17 @@ def admin_view():
     print(type(result))
     set_background(
         "https://raw.githubusercontent.com/yadu10-guest/auction-app/refs/heads/master/images/player%20auction.webp")
-    st.markdown("<h1 style='color: white;'>Admin Dashboard</h1>", unsafe_allow_html=True)
-    st.markdown("<h2 style='color: white;'>Welcome Admin</h2>", unsafe_allow_html=True)
+    st.markdown("""
+        <div style='text-align: center;'>
+            <h1 style='color: white;'>Admin Dashboard</h1>
+            <h2 style='color: white;'>Welcome Admin</h2>
+        </div>
+    """, unsafe_allow_html=True)
+
     st.markdown(
         f"""
         <div style="text-align: center;">
-            <img src="{image_url}" alt="Image" width="300" height="300">
+            <img src="{image_url}" alt="Image" width="500" height="500" style="border-radius: 10px; border: 5px solid white;">
         </div>
         """,
         unsafe_allow_html=True
@@ -71,20 +76,66 @@ def admin_view():
 
     st.markdown(f"""
         <div style='text-align: center;'>
-        <p style='font-size: 20px; font-weight: bold; color: white;'>{result[0][1]}</p>
         <h2 style='margin: 10px; color: white;'>₹{st.session_state.current_bid}</h2>
         </div>
     """, unsafe_allow_html=True)
 
-    # Centered plus button
-    if st.button("➕", help="Increase bid by 500"):
-        if st.session_state.current_bid < 2000:
-            st.session_state.current_bid += 100
-        elif st.session_state.current_bid < 5000:
-            st.session_state.current_bid += 200
-        else:
-            st.session_state.current_bid += 500
-        st.rerun()
+    col1, col2, col3 = st.columns([1.5, 2.2, 2])
+    with col2:
+        if st.button("➕", help="Increase bid"):
+            if st.session_state.current_bid < 2000:
+                st.session_state.current_bid += 100
+            elif st.session_state.current_bid < 5000:
+                st.session_state.current_bid += 200
+            else:
+                st.session_state.current_bid += 500
+            st.rerun()
+
+    with col3:
+        if st.button("➖", help="Decrease bid"):
+            if st.session_state.current_bid != 1000:
+                if st.session_state.current_bid < 2000:
+                    st.session_state.current_bid -= 100
+                elif st.session_state.current_bid < 5000:
+                    st.session_state.current_bid -= 200
+                else:
+                    st.session_state.current_bid -= 500
+                st.rerun()
+
+    col4, col5, col6 = st.columns([1.1, 1.9, 2])
+
+    # Styling for custom-colored buttons
+    button_style = """
+        <style>
+        div.stButton > button:first-child {
+            font-size: 18px;
+            padding: 0.5em 2em;
+            border-radius: 8px;
+        }
+        </style>
+    """
+    st.markdown(button_style, unsafe_allow_html=True)
+
+    with col5:
+        st.markdown("<br>", unsafe_allow_html=True)  # Adds vertical spacing
+        if st.button("SOLD"):
+            st.markdown(
+                """
+                <audio autoplay>
+                    <source src="https://raw.githubusercontent.com/yadu10-guest/auction-app/master/images/bj0iu39w9a-truck-horn-sfx-1.mp3" type="audio/mpeg">
+                </audio>
+                """,
+                unsafe_allow_html=True
+            )
+            st.markdown('<script>document.querySelectorAll("button")[0].classList.add("sold-button")</script>',
+                        unsafe_allow_html=True)
+
+    with col6:
+        st.markdown("<br>", unsafe_allow_html=True)  # Adds vertical spacing
+        if st.button("UNSOLD"):
+            st.markdown('<script>document.querySelectorAll("button")[1].classList.add("unsold-button")</script>',
+                        unsafe_allow_html=True)
+            st.rerun()
 
 
 def user_view():
