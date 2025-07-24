@@ -82,16 +82,6 @@ def admin_view():
 
     col1, col2, col3 = st.columns([1.5, 2.2, 2])
     with col2:
-        if st.button("➕", help="Increase bid"):
-            if st.session_state.current_bid < 2000:
-                st.session_state.current_bid += 100
-            elif st.session_state.current_bid < 5000:
-                st.session_state.current_bid += 200
-            else:
-                st.session_state.current_bid += 500
-            st.rerun()
-
-    with col3:
         if st.button("➖", help="Decrease bid"):
             if st.session_state.current_bid != 1000:
                 if st.session_state.current_bid < 2000:
@@ -101,6 +91,16 @@ def admin_view():
                 else:
                     st.session_state.current_bid -= 500
                 st.rerun()
+
+    with col3:
+        if st.button("➕", help="Increase bid"):
+            if st.session_state.current_bid < 2000:
+                st.session_state.current_bid += 100
+            elif st.session_state.current_bid < 5000:
+                st.session_state.current_bid += 200
+            else:
+                st.session_state.current_bid += 500
+            st.rerun()
 
     col4, col5, col6 = st.columns([1.1, 1.9, 2])
 
