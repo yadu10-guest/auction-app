@@ -69,8 +69,7 @@ def enter_player_id():
 def admin_view(player_id):
     print(type(player_id))
     result = st.session_state.get("players_data", [])
-    if 'current_player' not in st.session_state:
-        st.session_state.current_player = result[player_id - 1][1]
+    st.session_state.current_player = result[player_id - 1][1]
     image_url = result[player_id - 1][2]
     print(image_url)
     print("Result = ", result)
