@@ -59,7 +59,7 @@ def login():
 
 def enter_player_id():
     st.session_state.image_placeholder = st.empty()
-    st.session_state.image_placeholder.image("/home/yadukrishnan/Downloads/a557864d-fdb9-402c-ac57-d9796066633f.jpeg")
+    st.session_state.image_placeholder.image("https://github.com/yadu10-guest/auction-app/blob/master/images/a557864d-fdb9-402c-ac57-d9796066633f.jpeg?raw=true")
     st.session_state.player_id = st.empty()
     player_id = st.sidebar.text_input("Enter player ID")
     print(type(player_id))
